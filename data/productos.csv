@@ -1,0 +1,9 @@
+producto_id,nombre_producto,categoria,precio_unitario,en_promocion
+1,Café Americano,Café,2.0,True
+2,Café Latte,Café,2.5,True
+3,Té Verde,Té,1.8,False
+4,Croissant,Postres,2.2,True
+5,Pastel de Zanahoria,Postres,3.0,True
+6,Sandwich Integral,Desayunos,3.5,True
+7,Jugo Natural,Bebidas,2.8,True
+8,Capuchino,Café,2.7,True
