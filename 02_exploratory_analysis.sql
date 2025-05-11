@@ -213,3 +213,44 @@ SELECT
     ROUND(cantidad / media_stock, 2) AS rotation
 FROM
     stock_media;
+
+/*
+ Aquí se logra ver que está en general bien la rotación, debido a que supera la medida de 1.5, solo en casos muy
+ puntuales está por debajo de 1.
+ */
+
+-- Detección de productos que no se venden en ciertos días
+WITH dias AS (
+    SELECT 0 AS dia UNION ALL SELECT 1 UNION ALL SELECT 2 UNION ALL
+    SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6
+),
+
+producto_dias AS (
+    SELECT
+        p.producto_id,
+        p.nombre_producto,
+        d.dia
+    FROM productos p
+    CROSS JOIN dias d
+),
+
+ventas_por_dia AS (
+    SELECT DISTINCT
+        producto_id,
+        DAYOFWEEK(fecha) - 1 AS dia
+    FROM ventas
+)
+
+SELECT
+    pd.nombre_producto,
+    pd.dia
+FROM producto_dias pd
+LEFT JOIN ventas_por_dia vd
+    ON pd.producto_id = vd.producto_id AND pd.dia = vd.dia
+WHERE vd.producto_id IS NULL
+ORDER BY pd.nombre_producto, pd.dia;
+
+/*
+ Aquí no se detecta que algún producto no se haga vendido en algún día, por lo que eso es muy bueno, ya que dice que
+ todos nuestros productos se venden todos los días.
+ */
